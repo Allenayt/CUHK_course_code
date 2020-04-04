@@ -5,7 +5,10 @@ D = 0;
 Q = [1 0;0 0.5];
 R = 0.01;
 sys_c = ss(A, B, C, D);
-[K, P, e] =lqr(A, B, Q, R)
-sys_f = ss(A-B*K, B, C, D)
-[Gm, Pm, Wcg, Wcp] = margin(sys_f)
+[F, P, e] =lqr(A, B, Q, R)
+[Gm, Pm, Wcg, Wcp] = margin(A,B,F,0)
 margin(sys_f)
+figure(1)
+margin(A,B,F,0)
+figure(2)
+nyquist(A,B,F,0)
