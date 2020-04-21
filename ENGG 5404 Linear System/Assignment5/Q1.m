@@ -3,29 +3,34 @@ epsilon = 0.01;
 
 A =[0 1;0 -1];
 B = [0;1];
-E = [0 0
-     1 0];
+E = [0 0 epsilon 0 0
+     1 0 0 epsilon 0];
+E_origin = [0 0 
+     1 0 ];
 C1 = [1 0];
-D1 = [0 1];
+D1 = [0 1 0 0 epsilon];
+D1_origin = [0 1];
 C2 = [0 1;epsilon 0;0 epsilon;0 0];
 C2_origin = [0,1];
 D2 = [0;0;0;epsilon];
+D2_origin = 0;
 
-P = h2care(A,B,C2,D2);
-F = -inv(D2'*D2)*(D2'*C2+B'*P);%h2state(A,B,C2,D2,1)
-Q = h2care(A',C1',E',D1');
+
+P = h2care(A,B,C2,D2)
+F = -inv(D2'*D2)*(D2'*C2+B'*P)%h2state(A,B,C2,D2,1)
+Q = h2care(A',C1',E',D1')
 K = -(Q*C1'+E*D1')*inv(D1*D1')%h2state(A',C1',E',D1',1))'
 g2 = sqrt(trace(E'*P*E)+trace((A'*P+P*A+C2'*C2)*Q));
 
 Acmp = A+B*F+K*C1
 Bcmp = -K
 Ccmp = F
-Dcmp = 0;
+Dcmp = 0
 
-Acl = [A B*Ccmp;Bcmp*C1 Acmp];
-Bcl = [E;Bcmp*D1];
-Ccl = [C2 D2*Ccmp];
-Dcl = zeros(4,2);
+Acl = [A B*Ccmp;Bcmp*C1 Acmp]
+Bcl = [E_origin;Bcmp*D1_origin]
+Ccl = [C2_origin D2_origin*Ccmp]
+Dcl = zeros(1,2)
 sigma(Acl,Bcl,Ccl,Dcl);
 
 % sig = zeros(800,2);
