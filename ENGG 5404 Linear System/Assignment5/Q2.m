@@ -3,6 +3,7 @@ epsilon = 0.01;
 A =[0 1;0 -1];
 B = [0;1];
 E = [0 0;1 0];
+E_origin
 C1 = [1 0];
 D1 = [0 1];
 C2 = [0 1;epsilon 0;0 epsilon;0 0];
